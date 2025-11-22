@@ -418,7 +418,7 @@ services:
     build:
       context: ..
       dockerfile: frontend/Dockerfile
-    image: docker.86links.com/public/cozedev/coze-studio-web:latest
+    # image: docker.86links.com/public/cozedev/coze-studio-web:latest
     container_name: coze-web
     restart: always
     ports:
