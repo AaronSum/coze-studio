@@ -5,6 +5,7 @@ This is the frontend project of Coze Studio, an AI Agent development platform bu
 ## 🏗️ Project Architecture
 
 ### Core Technology Stack
+
 - **Framework**: React 18 + TypeScript
 - **Build Tool**: Rsbuild
 - **Package Manager**: Rush + PNPM
@@ -47,11 +48,13 @@ frontend/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js >= 21
 - PNPM 8.15.8
 - Rush 5.147.1
 
 ### Install Dependencies
+
 ```bash
 # Run in project root directory
 rush install
@@ -60,6 +63,7 @@ rush update
 ```
 
 ### Development Mode
+
 ```bash
 # Start development server
 cd apps/coze-studio
@@ -69,6 +73,7 @@ rushx dev
 ```
 
 ### Production Build
+
 ```bash
 # Build application
 cd apps/coze-studio
@@ -80,12 +85,14 @@ rushx build
 ## 📦 Core Modules
 
 ### Agent IDE
+
 - **agent-ide**: AI Agent integrated development environment
 - **prompt**: Prompt editor
 - **tool**: Tool configuration management
 - **workflow**: Workflow integration
 
 ### Architecture Layer (arch)
+
 - **bot-api**: API interface layer
 - **bot-hooks**: React Hooks library
 - **foundation-sdk**: Foundation SDK
@@ -94,12 +101,14 @@ rushx build
 - **web-context**: Web context utilities
 
 ### Workflow Engine (workflow)
+
 - **fabric-canvas**: Canvas rendering engine
 - **nodes**: Node component library
 - **sdk**: Workflow SDK
 - **playground**: Debug runtime environment
 
 ### Data Layer (data)
+
 - **knowledge**: Knowledge base management
 - **memory**: Memory system
 - **common**: Common data processing
@@ -107,12 +116,14 @@ rushx build
 ## 🔧 Development Standards
 
 ### Code Quality
+
 - Code formatting with ESLint + Prettier
 - TypeScript strict mode
 - Unit test coverage requirements
 - Team-based tier management (level-1 to level-4)
 
 ### Team Collaboration
+
 - Rush-based monorepo management
 - Workspace dependency management
 - Unified build and release process
