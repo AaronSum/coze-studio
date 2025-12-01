@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "rush-mcp-server": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@rushstack/mcp-server@0.3.6",
+        "/Users/lionad/Github/86Links/tinker-studio"
+      ]
+    }
+  }
+}
