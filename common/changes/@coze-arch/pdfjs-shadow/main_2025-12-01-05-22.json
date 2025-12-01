@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@coze-arch/pdfjs-shadow",
+      "comment": "add copilot instructions for sub packages",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@coze-arch/pdfjs-shadow",
+  "email": "tangnad@qq.com"
+}
