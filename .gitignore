@@ -52,6 +52,7 @@ backend/static
 node_modules
 common/temp
 .rush
+.nx
 .eslintcache
 
 
