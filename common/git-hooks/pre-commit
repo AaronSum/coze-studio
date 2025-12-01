@@ -7,7 +7,7 @@
 # are committed. The command is defined in common/config/rush/command-line.json
 # and uses the "rush-lint-staged" autoinstaller.
 
-# Force to update codeowners file if packasge.json changed.
+# Force to update code_owners file if package.json changed.
 
 # block unresolved conflict; https://git-scm.com/docs/git-diff
 
