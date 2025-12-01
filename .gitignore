@@ -54,6 +54,7 @@ common/temp
 .rush
 .nx
 .eslintcache
+.tmp
 
 
 # backend/conf/model/*.yaml
