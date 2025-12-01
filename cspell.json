@@ -1,6 +1,6 @@
 {
   "version": "0.2",
-  "ignorePaths": ["backend/go.mod"],
+  "ignorePaths": ["backend/go.mod", "backend/go.sum"],
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "caseSensitive": false,

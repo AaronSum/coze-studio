@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const repoRoot = path.resolve(__dirname, '../..');
+const repoRoot = path.resolve(__dirname, '..');
 const rushPath = path.join(repoRoot, 'rush.json');
 
 function readRush() {
