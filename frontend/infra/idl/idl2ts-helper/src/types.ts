@@ -165,9 +165,9 @@ export function isI64Type(
 // }
 
 /**
- * isReftype
+ * isRefType
  */
-export function isReftype(statement: UnifyStatement): statement is RefType {
+export function isRefType(statement: UnifyStatement): statement is RefType {
   const BaseType = [
     SyntaxType.ConstDefinition,
     SyntaxType.StructDefinition,
