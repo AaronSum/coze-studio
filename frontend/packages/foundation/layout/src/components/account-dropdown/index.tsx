@@ -15,6 +15,7 @@
  */
 
 import {
+  Fragment,
   type FC,
   isValidElement,
   type ReactNode,
@@ -84,13 +85,22 @@ export const GlobalLayoutAccountDropdown: FC<
             className={classNames(style.menu, 'w-[250px]')}
             mode="menu"
           >
-            {menus?.map(item =>
-              isReactNode(item) ? (
-                item
-              ) : (
+            {menus?.map((item, index) => {
+              const fallbackKey = `layout-account-menu-${index}`;
+
+              if (isReactNode(item)) {
+                const nodeKey =
+                  isValidElement(item) && item?.key
+                    ? String(item.key)
+                    : fallbackKey;
+
+                return <Fragment key={nodeKey}>{item}</Fragment>;
+              }
+
+              return (
                 <Dropdown.Item
-                  key={item.title}
-                  onClick={e => {
+                  key={item.title || fallbackKey}
+                  onClick={() => {
                     reportNavClick(item.title);
                     onVisibleChange?.(false);
                     item.onClick();
@@ -107,8 +117,8 @@ export const GlobalLayoutAccountDropdown: FC<
                     <div className="flex items-center">{item.extra}</div>
                   </div>
                 </Dropdown.Item>
-              ),
-            )}
+              );
+            })}
           </Dropdown.Menu>
         }
       >
