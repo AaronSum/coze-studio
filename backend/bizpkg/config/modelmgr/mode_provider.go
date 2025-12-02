@@ -57,7 +57,7 @@ func getModelProviderList() []*config.ModelProvider {
 				ZhCn: "Deepseek 模型家族",
 				EnUs: "deepseek model family",
 			},
-			ModelClass: developer_api.ModelClass_DeekSeek,
+			ModelClass: developer_api.ModelClass_DeepSeek,
 		},
 		{
 			Name: &config.I18nText{

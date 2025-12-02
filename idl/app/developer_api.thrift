@@ -535,7 +535,7 @@ enum ModelClass {
     Cohere          = 16 // name: Cohere
     Baichuan        = 17 // Name: Baichuan Intelligent
     Ernie           = 18 // Name: ERNIE Bot
-    DeekSeek        = 19 // Name: Magic Square
+    DeepSeek        = 19 // Name: Magic Square
     Llama           = 20 // name: Llama
     StepFun         = 23
     Other           = 999

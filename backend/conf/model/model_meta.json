@@ -5261,7 +5261,7 @@
                 ]
             }
         },
-        "DeekSeek": {
+        "DeepSeek": {
             "default": {
                 "display_info": {
                     "output_tokens": 4096,

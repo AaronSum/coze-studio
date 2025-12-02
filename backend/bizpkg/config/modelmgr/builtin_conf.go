@@ -86,7 +86,7 @@ func getKnowledgeBuiltinModelClass() developer_api.ModelClass {
 	case "ark":
 		return developer_api.ModelClass_SEED
 	case "deepseek":
-		return developer_api.ModelClass_DeekSeek
+		return developer_api.ModelClass_DeepSeek
 	case "ollama":
 		return developer_api.ModelClass_Llama
 	case "qwen":

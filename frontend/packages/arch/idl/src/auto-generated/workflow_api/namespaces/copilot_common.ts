@@ -190,7 +190,7 @@ export enum LLMScene {
   OnboardingSugPreload = 23,
   /** web未登录用户输入问题 */
   WebNotLogin = 24,
-  /** Onboarding welcomeback */
+  /** Onboarding welcome_back */
   BackOnboardingSug = 25,
   /** 通过LLM的能力生成卡片 */
   GenCard = 26,

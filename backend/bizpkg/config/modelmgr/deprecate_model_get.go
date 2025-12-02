@@ -195,7 +195,7 @@ func strProtocolToModelClass(protocol Protocol) developer_api.ModelClass {
 	case ProtocolClaude:
 		modelClass = developer_api.ModelClass_Claude
 	case ProtocolDeepseek:
-		modelClass = developer_api.ModelClass_DeekSeek
+		modelClass = developer_api.ModelClass_DeepSeek
 	case ProtocolGemini:
 		modelClass = developer_api.ModelClass_Gemini
 	case ProtocolArk:
