@@ -463,5 +463,5 @@ export const useAuthStore = create<AuthStoreState & AuthStoreAction>()(
         },
       }));
     },
-  })),
+  }), { enabled: IS_DEV_MODE }),
 );

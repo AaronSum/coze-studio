@@ -24,5 +24,5 @@ export const createTextCustomAddUpdateStore = () =>
   create<UploadTextCustomAddUpdateStore>()(
     devtools((set, get, store) => ({
       ...createTextCustomAddUpdateSlice(set, get, store),
-    })),
+    }), { enabled: IS_DEV_MODE }),
   );

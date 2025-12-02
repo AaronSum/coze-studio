@@ -31,5 +31,5 @@ export const createTableCustomAddStore = () =>
   >()(
     devtools((set, get, store) => ({
       ...createTableCustomSlice(set, get, store),
-    })),
+    }), { enabled: IS_DEV_MODE }),
   );

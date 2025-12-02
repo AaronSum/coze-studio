@@ -64,5 +64,5 @@ export const useCommonConfigStore = create<
         initialized: true,
       });
     },
-  })),
+  }), { enabled: IS_DEV_MODE }),
 );

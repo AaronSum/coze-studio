@@ -69,5 +69,5 @@ export const createImageFileAddStore = () =>
       reset: () => {
         set(storeStaticValues);
       },
-    })),
+    }), { enabled: IS_DEV_MODE }),
   );

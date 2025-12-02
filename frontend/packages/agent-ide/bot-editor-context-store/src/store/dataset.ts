@@ -73,7 +73,7 @@ export const createDraftBotDatasetsStore = () =>
             ),
           });
         },
-      })),
+      })), { enabled: IS_DEV_MODE },
     ),
   );
 

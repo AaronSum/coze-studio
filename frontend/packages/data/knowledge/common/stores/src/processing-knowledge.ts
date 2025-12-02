@@ -64,7 +64,7 @@ export const createProcessingKnowledgeStore = () =>
           processingDatasets,
         });
       },
-    })),
+    }), { enabled: IS_DEV_MODE }),
   );
 
 export type ProcessingKnowledgeStore = ReturnType<

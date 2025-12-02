@@ -72,7 +72,7 @@ export const createDraftBotPluginsStore = () =>
             },
           });
         },
-      })),
+      })), { enabled: IS_DEV_MODE },
     ),
   );
 

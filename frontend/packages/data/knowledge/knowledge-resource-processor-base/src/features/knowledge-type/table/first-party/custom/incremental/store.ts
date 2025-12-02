@@ -31,5 +31,5 @@ export const createTableCustomIncrementalStore = () =>
   >()(
     devtools((set, get, store) => ({
       ...createTableSlice(set, get, store),
-    })),
+    }), { enabled: IS_DEV_MODE }),
   );

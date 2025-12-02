@@ -41,5 +41,5 @@ export const useFileBoxListStore = create<
     setSearchValue: (v: string) => {
       set({ searchValue: v });
     },
-  })),
+  }), { enabled: IS_DEV_MODE }),
 );

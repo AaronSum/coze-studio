@@ -54,5 +54,5 @@ export const useWorkflowStore = create<
     setNodes: nodes => set({ nodes: nodes ?? [] }),
     setEdges: edges => set({ edges: edges ?? [] }),
     setIsCreatingWorkflow: value => set({ isCreatingWorkflow: value }),
-  })),
+  }), { enabled: IS_DEV_MODE }),
 );

@@ -92,5 +92,5 @@ export const useStepStore = create<StepStore>()(
     set_enableGoToNextStep: (newState: boolean) => {
       set(() => ({ enableGoToNextStep: newState }));
     },
-  })),
+  }), { enabled: IS_DEV_MODE }),
 );

@@ -64,5 +64,5 @@ export const useWorkflowDetailModalStore = create<WorkflowDetailModalStore>()(
     close: () => {
       set({ isVisible: false });
     },
-  })),
+  }), { enabled: IS_DEV_MODE }),
 );
