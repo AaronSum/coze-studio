@@ -30,6 +30,9 @@
     },
     {
       "path": "../idl2ts-plugin/tsconfig.build.json"
+    },
+    {
+      "path": "../../utils/rush-logger/tsconfig.build.json"
     }
   ]
 }

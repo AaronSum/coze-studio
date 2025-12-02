@@ -25,6 +25,7 @@
     "@coze-arch/idl-parser": "workspace:*",
     "@coze-arch/idl2ts-helper": "workspace:*",
     "@coze-arch/idl2ts-plugin": "workspace:*",
+    "@coze-arch/rush-logger": "workspace:*",
     "@faker-js/faker": "~9.3.0",
     "ajv": "~8.12.0",
     "camelcase": "^6.2.0",

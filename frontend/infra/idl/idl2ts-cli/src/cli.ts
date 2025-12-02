@@ -33,7 +33,7 @@ const main = () => {
     .action(
       (projectRoot, options: { genMock: boolean; formatConfig: string }) => {
         const spinner = ora(
-          'Generating api. It may take a few seconds',
+          'Generating api. It may take a few seconds\n',
         ).start();
         try {
           gen(projectRoot, {

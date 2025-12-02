@@ -26,6 +26,17 @@ export interface Ctxs {
   [key: string]: Args;
 }
 
+/**
+ * Program class for managing hooks and plugins
+ * @example
+ * ```ts
+ * const program = Program.create<MyContexts>([myPlugin]);
+ * program.register('MY_HOOK', (args) => {
+ *   return args;
+ * });
+ * program.trigger('MY_HOOK', { data: 'example' });
+ * ```
+ */
 export class Program<C extends Ctxs = any> {
   static create = <K extends Ctxs = any>(plugins: IPlugin[]) => {
     const p = new Program<K>();

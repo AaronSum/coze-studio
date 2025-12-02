@@ -17,6 +17,7 @@
 import path from 'path';
 
 import fs from 'fs-extra';
+import { logger } from '@coze-arch/rush-logger';
 import { Program, on } from '@coze-arch/idl2ts-plugin';
 import {
   createFile,
@@ -123,6 +124,7 @@ export class ClientGenerator {
     const res = this.gen();
     this.program.register(on(HOOK.WRITE_FILE), ctx => {
       const { content, filename } = ctx;
+      logger.info(`Writing file: ${filename}`);
       safeWriteFile(filename, content);
       return ctx;
     });

@@ -804,6 +804,9 @@ importers:
       '@coze-arch/idl2ts-plugin':
         specifier: workspace:*
         version: link:../idl2ts-plugin
+      '@coze-arch/rush-logger':
+        specifier: workspace:*
+        version: link:../../utils/rush-logger
       '@faker-js/faker':
         specifier: ~9.3.0
         version: 9.3.0
