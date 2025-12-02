@@ -67,6 +67,7 @@ common/autoinstallers/*/.npmrc
 .temp
 .pnpm-store/
 pnpm-local
+pnpm-store
 autoinstaller*.lock
 
 # Heft
