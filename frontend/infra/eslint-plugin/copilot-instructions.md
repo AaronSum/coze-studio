@@ -36,71 +36,6 @@
 
 ---
 
-## 2. 开发/构建/测试工作流
-
-所有命令均在 Rush monorepo 下统一管理，本包自己的 `package.json` 仅提供脚本封装。
-
-### 2.1 常用脚本（本包）
-
-位于 [frontend/infra/eslint-plugin/package.json](package.json)：
-
-- `npm run build`
-  - 命令：`exit 0`（当前为 no-op，仅占位）。
-  - 说明：本包以源码形式供 workspace 内部使用，目前未做编译/打包；如需构建流程，请保持与该约定兼容或谨慎扩展。
-- `npm run dev`
-  - 命令：`npm run build -- -w`。
-  - 目前同样是 no-op，占位用，不要依赖该命令做真实 watch 构建。
-- `npm run lint`
-  - 命令：`eslint ./src --cache --quiet`。
-  - 使用根目录的 [frontend/infra/eslint-plugin/eslint.config.js](eslint.config.js)。
-  - 仅针对 `src` 目录下的规则实现 / 配置代码。
-- `npm run test`
-  - 命令：`vitest --run --passWithNoTests`。
-  - 使用 [frontend/infra/eslint-plugin/vitest.config.mts](vitest.config.mts)。
-  - `--passWithNoTests` 允许当前目录没有测试文件时依然通过。
-- `npm run test:cov`
-  - 命令：`npm run test -- --coverage`。
-  - 基于 `vitest` + `@vitest/coverage-v8`，覆盖率配置见 `vitest.config.mts`。
-
-### 2.2 Vitest 配置要点
-
-见 [frontend/infra/eslint-plugin/vitest.config.mts](vitest.config.mts)：
-
-- 使用 `defineConfig` + `test.globals = true`，因此测试中可以直接使用 `describe` / `it` / `expect` 等全局方法；
-- `testTimeout = 30s`；
-- 覆盖率：
-  - `all: true`，默认统计所有源文件；
-  - `exclude` 额外排除：
-    - `src/index.js`, `src/index.ts`；
-    - `src/zustand/index.js`, `src/zustand/index.ts`；
-  - Reporter 集合：`cobertura`、`text`、`html`、`clover`、`json`、`json-summary`。
-
-### 2.3 ESLint 配置（对本包源码）
-
-见 [frontend/infra/eslint-plugin/eslint.config.js](eslint.config.js)：
-
-- 基于 ESLint flat config（`js.configs.recommended`）。
-- 全局忽略：`**/*.json`、`dist`。
-- 对 JS/TS：
-  - `files: ['**/*.{js,jsx,ts,tsx}']`；
-  - `globals`：合并 node、jest + `vi: true`（方便 vitest 测试中使用 `vi`）；
-  - 插件：`eslint-plugin-import`；
-  - 规则：`import/order: 'error'`。
-- 对 TS/TSX：
-  - `parser: @typescript-eslint/parser`；
-  - 插件：`@typescript-eslint/eslint-plugin`；
-  - 启用 `tsPlugin.configs.recommended.rules` + `tsPlugin.configs.stylistic.rules`；
-  - 特殊关闭/调整：
-    - `@typescript-eslint/no-unnecessary-condition: 'off'`；
-    - `arrow-body-style: 'off'`；
-    - `@typescript-eslint/naming-convention: 'warn'`；
-    - `@typescript-eslint/no-explicit-any: 'off'`；
-    - `@typescript-eslint/array-type: 'off'`。
-
-**对 Agent 的要求：** 修改/新增规则实现或测试时，应保持上述 ESLint 约定不被破坏；新增 TS 代码默认也会被这一套规则检查。
-
----
-
 ## 3. 规则与插件结构约定
 
 ### 3.1 主插件 `src/index.ts`
@@ -147,20 +82,16 @@
 ### 3.4 Zustand 插件结构
 
 - 入口： [frontend/infra/eslint-plugin/src/zustand/index.ts](src/zustand/index.ts)；
-  - 类型：`Linter.Plugin`；
   - `rules`：`prefer-selector`、`prefer-shallow`、`store-name-convention`、`no-state-mutation` 等；
   - `configs.recommended`：
-    - 直接是一个对象（非数组），只有 `rules` 字段；
     - 各规则以 `@coze-arch/zustand/*` 命名空间启用。
 - 规则实现目录： [frontend/infra/eslint-plugin/src/zustand/rules](src/zustand/rules)；
   - 每条规则对应一个 TS 文件/子目录，导出 `RuleModule`；
   - 示例规则：
     - `no-get-state-in-comp`：限制在组件中直接访问 `getState`；
-    - `prefer-curry-create`：鼓励以 curry 方式创建 store；
     - `proper-store-typing`：约束 store 的类型定义；
     - `zustand-devtools-config`：约束 devtools 配置；
     - `zustand-prefer-middlewares`：推荐使用中间件等。
-
 Zustand 插件是一个独立入口，消费时一般通过：
 
 ```ts
@@ -170,25 +101,20 @@ import zustandPlugin from '@coze-arch/eslint-plugin/zustand';
 ---
 
 ## 4. 测试模式与依赖集成
-
 ### 4.1 RuleTester 与工具依赖
 
 - 规则测试通常使用 `@typescript-eslint/rule-tester`，类型定义来自 `@types/eslint`、`@typescript-eslint/utils` 等；
-- 运行时依赖（`dependencies`）：
   - `@typescript-eslint/utils`：提供 `TSESLint.RuleModule`、AST 类型等工具；
   - `eslint-module-utils`：处理导入/模块解析；
-  - `eslint-rule-composer`：组合规则或包装已有规则；
   - `eslint-traverse`、`eslint-utils`：AST 遍历与通用工具；
   - `semver`：处理版本比较，主要服务于 package 规则；
 - 开发依赖（`devDependencies`）：
   - `@typescript-eslint/eslint-plugin`、`@typescript-eslint/parser`：本项目自身使用的 TS lint 能力；
   - `@vitest/coverage-v8` + `vitest`：测试与覆盖率；
   - `eslint` + 一些插件（`import`、`react`、`unicorn`、`prettier`）仅用于开发自检，而非本插件对外暴露的内容。
-
 **对 Agent 的要求：**
 - 如需新增对 AST 的复杂操作，优先复用 `@typescript-eslint/utils`、`eslint-utils` 提供的工具，而不是手写 fragile 的 AST 访问逻辑；
 - 涉及 package 语义（如版本比较、依赖合法性）时，优先使用 `semver`，不要自己实现解析逻辑。
-
 ### 4.2 测试实践约定
 
 - README 中建议：
@@ -215,24 +141,6 @@ import zustandPlugin from '@coze-arch/eslint-plugin/zustand';
   - 如需引入真实 build 流程（例如 TS -> JS 编译），需要：
     - 保持 `exports` 字段语义不变或做兼容迁移；
     - 使用 `tsconfig.build.json` 作为构建 TS 配置来源。
-
----
-
-## 6. 项目中不寻常 / 需要特别注意的点
-
-- **双入口 + 双命名空间**：
-  - 主插件命名空间：`@coze-arch/*`；
-  - Zustand 插件命名空间：`@coze-arch/zustand/*`；
-  - 推荐配置中也分别使用这两个命名空间，Agent 在新增规则或修改推荐配置时要注意对应关系。
-- **Processor 与全局规则的交互**：
-  - `package.json` 通过 Processor 处理后仍然会受到“全局规则”的潜在影响，当前推荐配置中通过关闭 `prettier/prettier` 等方式规避该问题；
-  - 修改 Processor 或推荐配置时，要特别小心不要让 JS/TS 规则错误作用于 JSON.
-- **build 为 no-op**：
-  - 即使 `build` 不做任何事，本包仍然通过 `exports` 暴露源码给 workspace 使用；
-  - 因此，源码中的 TypeScript/JavaScript 需要保持直接可运行/可解释（例如避免依赖只在构建时注入的语法或宏）。
-- **覆盖率排除 index / 入口文件**：
-  - vitest 配置中将 `src/index.*` 与 `src/zustand/index.*` 从覆盖率中排除，意味着这些文件通常只做“拼装导出”，而非复杂逻辑；
-  - 若今后在入口中加入较多逻辑，请同时更新覆盖率策略或将逻辑拆至独立模块。
 
 ---
 
