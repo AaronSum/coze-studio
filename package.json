@@ -1,5 +1,5 @@
 {
-  "name": "tinker-studio-dev-monorepo",
+  "name": "tinker-studio",
   "scripts": {
     "update": "rush update --bypass-policy",
     "dev:debug:gen-idl": "node frontend/infra/idl/idl2ts-cli/src/cli.js gen ./frontend/packages/arch/api-schema"
