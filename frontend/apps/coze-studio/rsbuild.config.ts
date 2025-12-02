@@ -52,7 +52,7 @@ const mergedConfig = defineConfig({
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       addPlugins([require('tailwindcss')('./tailwind.config.ts')]);
     },
-    rspack(config, { appendPlugins, addRules, mergeConfig }) {
+    rspack(config, { addRules, mergeConfig }) {
       addRules([
         {
           test: /\.(css|less|jsx|tsx|ts|js)/,
@@ -83,7 +83,7 @@ const mergedConfig = defineConfig({
         },
         ignoreWarnings: [
           /Critical dependency: the request of a dependency is an expression/,
-          warning => true,
+          _warning => true,
         ],
       });
     },

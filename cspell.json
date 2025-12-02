@@ -1,6 +1,9 @@
 {
   "version": "0.2",
-  "ignorePaths": ["backend/go.mod", "backend/go.sum"],
+  "ignorePaths": [
+    "backend/go.mod",
+    "backend/go.sum"
+  ],
   "dictionaryDefinitions": [],
   "dictionaries": [],
   "caseSensitive": false,
@@ -10,6 +13,7 @@
     "alicebob",
     "anthropics",
     "apachepulsar",
+    "Arcosite",
     "autoinstaller",
     "autoinstallers",
     "Baichuan",
@@ -169,6 +173,7 @@
     "Tongyi",
     "Toutiao",
     "uikit",
+    "undegraded",
     "utfbom",
     "vgrammar",
     "vitest",
