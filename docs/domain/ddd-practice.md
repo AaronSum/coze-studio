@@ -4,7 +4,7 @@
 
 在阅读本文前，建议你已经：
 
-- 对仓库整体目录（backend/domain、backend/application、backend/crossdomain、frontend/packages 等）有基本印象；
+- 对仓库整体目录（backend/application、backend/domain、backend/crossdomain、frontend/packages 等）有基本印象；
 - 理解 DDD 的基础概念（实体、聚合、值对象、领域服务、限界上下文等）；
 
 辅助资料：
@@ -45,32 +45,45 @@
 
 ### 1.2 限界上下文（Bounded Context）的划分
 
-后端主要有三层“视角”来承载限界上下文：
+后端主要通过 backend/application、backend/domain、backend/crossdomain 这三组目录来承载限界上下文与分层角色：
 
-- `domain/*`：**领域模型 + 业务规则**，代表单个限界上下文内部的一致性；
-- `application/*`：**应用服务层**，协调多个上下文、编排用例；
-- `crossdomain/*`：**跨领域协作层**，处理跨上下文的流程与集成。
+- `backend/domain/*`：**领域模型 + 业务规则**，代表单个限界上下文内部的一致性，是“内核层”。
+- `backend/application/*`：**应用服务层**，在单个限界上下文内编排用例，承接 HTTP/RPC/API 调用，做参数校验、权限校验、事务边界管理等。
+- `backend/crossdomain/*`：**跨领域协作层**，处理跨上下文的流程与集成，是“多上下文编排层”。
 
-目前的限界上下文可以粗略归类为（按核心概念分组）：
+结合当前目录结构，可以更细致地看到这三层如何承载限界上下文：
 
-- Agent：`domain/agent`、`domain/app`、`domain/template`、`domain/singleagent` 等；
-- Workflow：`domain/workflow` 以及与之协作的 `domain/conversation`、`domain/shortcutcmd` 等；
-- Plugin：`domain/plugin`、`domain/prompt` 及相关扩展；
-- Knowledge：`domain/knowledge`、`domain/datacopy`；
-- Developer / User / Account：`domain/user`、`domain/permission`、`domain/openauth`，以及 IDL `idl/passport/*` 与对应的 `/api/passport/...` 路由，共同构成平台的账号身份与登录上下文（Passport）；
-- Platform：承载平台级能力的 `bizpkg`、`infra` 与 `conf` 等目录，通过接口形式对领域层暴露能力；
-- Product / Marketplace：以“产品实体”为核心，基于 IDL（如 `idl/marketplace/*`）与生成的 TS 类型（如 `frontend/packages/arch/api-schema/src/idl/marketplace/product_common.ts`）对 Agent、Plugin、Workflow 模板、Project 等进行统一抽象和曝光。
+**backend/domain/**（纯领域视角）
 
-而 `crossdomain/*` 下有几乎同名的子目录：
+- Agent / App 相关：`domain/agent`、`domain/app`、`domain/template`、`domain/singleagent`，负责 Agent 配置、模板、单 Agent 场景等核心模型与规则。
+- Workflow / Conversation：`domain/workflow`、`domain/conversation`、`domain/shortcutcmd`，负责工作流图、运行配置、多轮会话与快捷指令等。
+- Plugin / Prompt：`domain/plugin`、`domain/prompt`，负责插件能力、提示词模板等可复用能力建模。
+- Knowledge / Datacopy / Memory：`domain/knowledge`、`domain/datacopy`、`domain/memory`，负责知识库、数据拷贝任务与记忆策略建模。
+- User / Permission / Openauth：`domain/user`、`domain/permission`、`domain/openauth`，负责账号、权限、开放授权等领域。
+- Search / Upload / Connector：`domain/search`、`domain/upload`、`domain/connector`，负责搜索、上传与外部系统连接等领域接口建模。
 
-- 它们体现了“跨限界上下文的流程/用例”，如跨 Agent + Workflow + Knowledge 的编排逻辑；
-- 这些代码经常依赖多个 `domain/*` 包，但自身不再承担复杂领域规则，而是负责 **组合、适配、事务边界** 等。
+**backend/application/**（单上下文应用服务视角）
+
+- 基本上与 domain 拥有类似的子目录：`application/app`、`application/workflow`、`application/conversation`、`application/plugin`、`application/knowledge`、`application/user` 等，对应各自上下文的“用例编排层”。
+- 典型职责包括：
+  - 将 HTTP/RPC/消息等入口映射为 Application Service（命令/查询）调用；
+  - 做参数/权限校验、简单防腐（ACL），决定使用哪些领域对象与仓储接口；
+  - 定义事务边界（一次用例需要修改哪些聚合、以何种顺序进行）。
+
+**backend/crossdomain/**（跨上下文协作视角）
+
+- 子目录与 domain/application 中的上下文名高度对齐：`crossdomain/agent`、`crossdomain/workflow`、`crossdomain/conversation`、`crossdomain/knowledge`、`crossdomain/plugin`、`crossdomain/user` 等。
+- 典型职责包括：
+  - 监听/组合多个上下文的领域事件，完成“横切流程”（例如 Agent 发布后，触发 Workflow 索引、Search 索引、Message runtime 准备等）；
+  - 将多个上下文的读模型聚合成一个“跨域视图”，供上游查询；
+  - 对接外部系统或平台级能力（如 `crossdomain/database`、`crossdomain/search`、`crossdomain/message` 等）。
 
 通过这种设计：
 
-- 领域规则和不变式尽量留在 `domain/*`；
-- 复杂跨边界用例放在 `crossdomain/*`；
-- HTTP / RPC 适配、DTO 映射则在 `api/*` 与 `application/*` 层完成。
+- 领域规则和不变式尽量留在 `backend/domain/*`；
+- 单上下文的用例编排与 DTO/参数处理在 `backend/application/*` 完成；
+- 复杂跨边界用例放在 `backend/crossdomain/*`；
+- HTTP / RPC 适配、DTO 映射则在 `backend/api/*` 层完成。
 
 ### 1.3 领域驱动模型，模型驱动软件设计
 

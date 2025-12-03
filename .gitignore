@@ -37,6 +37,7 @@ output/*
 .vscode/settings.json
 .vscode/launch.json
 .vscode/code-counter
+.vscode/prompts
 
 /patches
 /oldimpl

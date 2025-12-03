@@ -146,6 +146,11 @@
       "tags": ["team-arch", "level-1"]
     },
     {
+      "packageName": "@tinker-arch/bot-api",
+      "projectFolder": "frontend/packages/arch/bot-api__tinker",
+      "tags": ["team-arch", "level-1"]
+    },
+    {
       "packageName": "@coze-arch/vitest-config",
       "projectFolder": "frontend/config/vitest-config",
       "tags": ["team-arch", "level-1"]
